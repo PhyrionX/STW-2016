@@ -7,7 +7,7 @@
 package server;
 
 public final class Constants {
-    public static final String NOT_IMPLEMENTED = "notimplemented";
+    public static final String NOT_IMPLEMENTED = "notimplemened";
     public static final String BAD_REQUEST = "badrequest";
     public static final String FORBBIDEN = "forbbiden";
     public static final String NOT_FOUND = "nofound";
