@@ -3,9 +3,9 @@ var router = require("./modules/router");
 var requestHandlers = require("./modules/requestHandlers");
 var handle = {};
 handle["/"] = requestHandlers.showAllMemo;
-handle["/setMemo"] = requestHandlers.showAllMemo;
+handle["/showAllMemo"] = requestHandlers.showAllMemo;
 handle["/showMemo"] = requestHandlers.showMemo;
-handle["/upload"] = requestHandlers.upload;
+handle["/setMemo"] = requestHandlers.setMemo;
 handle["/show"] = requestHandlers.show;
 handle["/deleteMemo"] = requestHandlers.deleteMemo;
 

@@ -22,7 +22,27 @@ module.exports = {
         })
     },
     showById: function(id, callback) {
-        connection.query('SELECT * FROM notas WHERE id_nota=' + id, function(err, rows, fields) {
+        connection.query('SELECT * FROM notas WHERE id_nota=' + id, function (err, rows, fields) {
+            if (err) throw err;
+            callback(rows);
+        });
+    },
+    getMaxId: function(callback) {
+        connection.query('SELECT max(id_nota) AS id_nota FROM notas', function (err, rows, fields) {
+            if (err) throw err;
+            callback(rows);
+        });
+    },
+    insertMemo: function(fecha, texto, ruta, callback) {
+        //var sql = 'INSERT INTO exhibits (title) VALUES ("fecha")';
+        connection.query('INSERT INTO notas (fecha, texto, fichero) VALUES ("' + fecha + '", "' + texto + '", "' + ruta + '")', function(err, rows, fields) {
+            if (err) throw err;
+            callback(rows);
+        });
+    },
+    insertMemo: function(fecha, texto, callback) {
+        //var sql = 'INSERT INTO exhibits (title) VALUES ("fecha")';
+        connection.query('INSERT INTO notas (fecha, texto) VALUES ("' + fecha + '", "' + texto + '")', function(err, rows, fields) {
             if (err) throw err;
             callback(rows);
         });
