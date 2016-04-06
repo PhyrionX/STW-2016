@@ -1,3 +1,13 @@
+/**
+ * Rubén Gabás Celimendiz 590738
+ *
+ * requestHandler.js
+ *
+ * Modulo inicial encargado de las funcionalidades de cada una de las routes del servidor.
+ * Es la operativa del mismo
+ *
+ */
+
 var querystring = require("querystring"),
     fs = require("fs"),
     formidable = require("formidable");
@@ -6,7 +16,12 @@ var mysql = require("./mysqlConnection");
 var url = require("url");
 
 
-
+/**
+ * Función que se encarga de mostrar todas las notas en una tabla
+ * con su id, fecha, texto, archivo y las opciones de mostrar y borrar
+ *
+ * @param response
+ */
 function showAllMemo(response) {
     console.log("Request handler 'setMemo' was called.");
     var body = '<html>'+
@@ -14,7 +29,7 @@ function showAllMemo(response) {
         '<meta http-equiv="Content-Type" '+
         'content="text/html; charset=UTF-8" />'+
         '</head>'+
-        '<body>'+
+        '<body><h1>Agenda OP</h1>'+
         '<table>'+
         '<tr><th>Id</th><th>Fecha</th><th>Texto</th><th>Archivo</th><th>Options</th></tr>';
         mysql.show(function (rows) {
@@ -50,6 +65,14 @@ function showAllMemo(response) {
 
 
 }
+
+/**
+ * Función encargada de insertar una nota a la lista la introduce a la BBDD
+ * luego redirecciona a showAllMemo
+ *
+ * @param response
+ * @param request
+ */
 function setMemo(response, request) {
     console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
@@ -63,7 +86,8 @@ function setMemo(response, request) {
             //var buffer = new Buffer(getFilesizeInBytes(files));
 
             mysql.getMaxId(function(rows) {
-                //console.log(rows[0].id_nota);
+                //guarda en el path único el archivo, en un sistema de ficheros
+                // y esta ruta la guardamos en la BBDD
                 var path = "./files/" + crypto.createHash('md5').update("" + rows[0].id_nota).digest("hex")  + files.upload.name;
                 console.log(path);
                 fs.rename(files.upload.path, path , function (error) {
@@ -73,6 +97,7 @@ function setMemo(response, request) {
                         fs.rename(files.upload.path, path);
 
                     } else {
+                        // inserción en la BBDD con ruta del archivo en la BBDD
                         mysql.insertMemo(fields.fecha, fields.texto, path, function(rows) {
                             console.log(rows);
                         })
@@ -81,7 +106,8 @@ function setMemo(response, request) {
             })
 
         } else {
-            mysql.insertMemo(fields.fecha, fields.texto, function(rows) {
+            // inserción en la BBDD sin ruta del archivo en la BBDD
+            mysql.insertMemo2(fields.fecha, fields.texto, function(rows) {
                 console.log(rows);
             })
         }
@@ -92,8 +118,15 @@ function setMemo(response, request) {
     });
 }
 
+/**
+ * Borra una nota pasando el id de la misma por la url
+ *
+ * @param response
+ * @param request
+ */
 function deleteMemo(response, request) {
     console.log("Request handler 'deleteMemo' was called.");
+    // parseamos la url
     var parts = url.parse(request.url, true)
     console.log(parts.query.id);
     mysql.borrar(parts.query.id, function(err){
@@ -103,6 +136,13 @@ function deleteMemo(response, request) {
     })
 
 }
+
+/**
+ * Muestra una nota pasando el id por la url
+ *
+ * @param response
+ * @param request
+ */
 function showMemo(response, request) {
     console.log("Request handler 'showMemo' was called.");
     var parts = url.parse(request.url, true)
@@ -143,14 +183,9 @@ function showMemo(response, request) {
     })
 }
 
-function show(response) {
-    console.log("Request handler 'show' was called.");
-    response.writeHead(200, {"Content-Type": "image/png"});
-    fs.createReadStream("/tmp/test.png").pipe(response);
-}
+
 
 exports.showMemo = showMemo;
 exports.showAllMemo = showAllMemo;
 exports.setMemo = setMemo;
 exports.deleteMemo = deleteMemo;
-exports.show = show;

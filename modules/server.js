@@ -1,4 +1,11 @@
-
+/**
+ * Rubén Gabás Celimendiz 590738
+ *
+ * server.js
+ *
+ * Módulo encargado de iniciar el servidor, el servidor corre en el puerto 8888
+ *
+ */
 
 var http = require("http");
 var url = require("url");
