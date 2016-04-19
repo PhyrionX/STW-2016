@@ -23,6 +23,28 @@ var notas = require("./models/notas"),
  * @param response
  */
 
+function logView(response,request, ok) {
+    response.writeHead(200, {"Content-Type": "text/html"});
+    var body = '<html>'+
+        '<head>'+
+        '<meta http-equiv="Content-Type" '+
+        'content="text/html; charset=UTF-8" />'+
+        '</head>'+
+        '<body><h1>Login Agenda OP</h1>' +
+        '<form action="/" enctype="multipart/form-data" '+
+        'method="post">'+
+        '<input type="text" placeholder="Login" name="login" required></br>' +
+        '<input type="password" placeholder="Password" name="pass" required></br>';
+        if (!ok) {
+            body += 'Contraseña erronea </br>'
+        }
+        body += '<input type="submit" value="Logear" />'+
+        '</form>'+
+        '</body>';
+    response.write(body);
+    response.end();
+}
+
 function login(response, request) {
     var form = new formidable.IncomingForm();
 
@@ -34,35 +56,25 @@ function login(response, request) {
             user.login = fields.login;
             user.pass = fields.pass;
             //console.log(login + " " + pass);
-            users.findByLogin(login, function (err, rows) {
+            users.findByLogin(user.login, function (err, rows) {
+                console.log(rows);
                 if (rows.length == 0) {
                    users.insertUser(user, function (err, document) {
-                       console.log(document);
+                       showAllMemo(document.ops[0]._id)
                    })
                 } else {
                     //response.writeHead(302, {"Location":"/showAllMemo", "Content-Type": "text/html", "op":"op"});
-                    console.log(rows[0]._id)
-                    showAllMemo(response,request,rows[0]._id);
+                    //console.log(rows[0]._id)
+                    if (user.pass == rows[0].pass) {
+                        showAllMemo(response, request, rows[0]._id);
+                    } else {
+                        logView(response,request, false);
+                    }
                     //response.end();
                 }
             })
         } else {
-            response.writeHead(200, {"Content-Type": "text/html"});
-            var body = '<html>'+
-                '<head>'+
-                '<meta http-equiv="Content-Type" '+
-                'content="text/html; charset=UTF-8" />'+
-                '</head>'+
-                '<body><h1>Login Agenda OP</h1>' +
-                '<form action="/" enctype="multipart/form-data" '+
-                'method="post">'+
-                '<input type="text" placeholder="Login" name="login" required></br>' +
-                '<input type="password" placeholder="Password" name="pass" required></br>'+
-                '<input type="submit" value="Logear" />'+
-                '</form>'+
-                '</body>';
-            response.write(body);
-            response.end();
+            logView(response,request, true);
         }
     })
 
