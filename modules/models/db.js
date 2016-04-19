@@ -6,7 +6,8 @@
  * Módulo encargado de conectarse a la BBDD de MYSQL y realizar las consultas sobre la misma
  *
  */
-var MongoClient = require('mongodb').MongoClient;
+var Mongo = require('mongodb');
+var MongoClient = Mongo.MongoClient;
 var mysql      = require('mysql');
 
 
@@ -26,6 +27,11 @@ exports.connect = function(url, done) {
 
 exports.get = function() {
     return state.db
+}
+
+exports.getOID = function (objectID) {
+    var o_id = new mongo.ObjectID(theidID);
+    return o_id;
 }
 
 exports.close = function(done) {
@@ -60,6 +66,10 @@ module.exports = {
     },
     get: function() {
         return state.db
+    },
+    getOID : function (objectID) {
+        var o_id = new Mongo.ObjectID(objectID);
+        return o_id;
     },
     close: function(done) {
         if (state.db) {

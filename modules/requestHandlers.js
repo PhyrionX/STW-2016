@@ -32,20 +32,20 @@ function showAllMemo(response) {
         '<body><h1>Agenda OP</h1>'+
         '<table>'+
         '<tr><th>Id</th><th>Fecha</th><th>Texto</th><th>Archivo</th><th>Options</th></tr>';
-        mysql.show(function (rows) {
+        notas.show(function (err, rows) {
             for (i = 0; i < rows.length; i++) {
                 //console.log(rows[i].id_notas+rows[i].fecha +rows[i].texto +rows[i].archivo );
                 body += '<tr>';
-                body += '<td>' + rows[i].id_nota + '</td>' +
+                body += '<td>' + rows[i]._id + '</td>' +
                         '<td>' + rows[i].fecha + '</td>' +
                         '<td>' + rows[i].texto + '</td><td>';
-                if (rows[i].fichero == null) {
+                if (rows[i].path == null) {
                     body += 'No proporcionado';
                 } else {
-                    body += '<a href="' + rows[i].fichero + '">Fichero</a>';
+                    body += '<a href="' + rows[i].path + '">Fichero</a>';
                 }
-                body += '</td><td><a href="deleteMemo?id='+ rows[i].id_nota+'"> Borrar</a>' +
-                    '<a href="showMemo?id='+ rows[i].id_nota+'"> Mostrar</a></td>'
+                body += '</td><td><a href="deleteMemo?id='+ rows[i]._id+'"> Borrar</a>' +
+                    '<a href="showMemo?id='+ rows[i]._id+'"> Mostrar</a></td>'
                         '</tr>';
             }
             body += '</table></br></br>' +
@@ -76,6 +76,7 @@ function showAllMemo(response) {
 function setMemo(response, request) {
     console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
+
     console.log("about to parse");
 
     form.parse(request, function(error, fields, files) {
@@ -86,10 +87,9 @@ function setMemo(response, request) {
         if (files.upload.name != '') {
             //var buffer = new Buffer(getFilesizeInBytes(files));
 
-            mysql.getMaxId(function(rows) {
                 //guarda en el path único el archivo, en un sistema de ficheros
                 // y esta ruta la guardamos en la BBDD
-                var path = "./files/" + crypto.createHash('md5').update("" + rows[0].id_nota).digest("hex")  + files.upload.name;
+                var path = "./files/" + crypto.createHash('md5').update("" + new Date().getTime()).digest("hex")  + files.upload.name;
                 console.log(path);
                 fs.rename(files.upload.path, path , function (error) {
                     if (error) {
@@ -111,8 +111,6 @@ function setMemo(response, request) {
                         })*/
                     }
                 });
-            })
-
         } else {
             var nota = {}
             nota.fecha = fields.fecha;
@@ -143,7 +141,7 @@ function deleteMemo(response, request) {
     // parseamos la url
     var parts = url.parse(request.url, true)
     console.log(parts.query.id);
-    mysql.borrar(parts.query.id, function(err){
+    notas.deleteMemo(parts.query.id, function(err){
         console.log(err);
         response.writeHead(302, {'Location': '/'});
         response.end();
@@ -161,16 +159,16 @@ function showMemo(response, request) {
     console.log("Request handler 'showMemo' was called.");
     var parts = url.parse(request.url, true)
     console.log(parts.query.id);
-    mysql.showById(parts.query.id, function(rows) {
+    notas.showMemo(parts.query.id, function(err, rows) {
         var body = '<html>'+
             '<head>'+
             '<meta http-equiv="Content-Type" '+
             'content="text/html; charset=UTF-8" />'+
             '</head>'+
             '<body>'+
-                '<div><h1>Info nota -> ' + rows[0].id_nota + '</h1>' +
+                '<div><h1>Info nota -> ' + rows[0]._id + '</h1>' +
                 '<dl><dt><b>Id</b></dt>' +
-                '<dd>' + rows[0].id_nota +
+                '<dd>' + rows[0]._id +
                 '</dd>' +
                 '<dt><b>Fecha</b></dt>' +
                 '<dd>' + rows[0].fecha +
@@ -179,14 +177,14 @@ function showMemo(response, request) {
                 '<dd>' + rows[0].texto +
                 '</dd>' +
                 '<dt><b>Fichero</b></dt><dd>';
-                if (rows[0].fichero == null) {
+                if (rows[0].path == null) {
                     body += 'No proporcionado';
                 } else {
-                    body += '<a href="' + rows[0].fichero + '">Fichero</a>';
+                    body += '<a href="' + rows[0].path + '">Fichero</a>';
                 }
                 body +='</dd>' +
                 '</dl>' +
-                '<a href="deleteMemo?id='+ rows[0].id_nota+'"> Borrar</a>' +
+                '<a href="deleteMemo?id='+ rows[0]._id+'"> Borrar</a>' +
                 '<a href="/"> Volver</a>'+
                 '</div>'+
             '</body>' +
