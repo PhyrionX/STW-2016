@@ -12,9 +12,9 @@ var querystring = require("querystring"),
     fs = require("fs"),
     formidable = require("formidable");
 var crypto = require('crypto');
-var mysql = require("./mysqlConnection");
+var mysql = require("./models/db");
 var url = require("url");
-
+var notas = require("./models/notas")
 
 /**
  * Función que se encarga de mostrar todas las notas en una tabla
@@ -77,6 +77,7 @@ function setMemo(response, request) {
     console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
     console.log("about to parse");
+
     form.parse(request, function(error, fields, files) {
         console.log("parsing done");
         console.log(fields.texto + " " + fields.fecha);
@@ -97,19 +98,32 @@ function setMemo(response, request) {
                         fs.rename(files.upload.path, path);
 
                     } else {
+                        var nota = {}
+                        nota.fecha = fields.fecha;
+                        nota.texto = fields.texto;
+                        nota.path = path;
                         // inserción en la BBDD con ruta del archivo en la BBDD
-                        mysql.insertMemo(fields.fecha, fields.texto, path, function(rows) {
-                            console.log(rows);
+                        notas.insertMemo(nota, function (err, documents) {
+                            console.log(documents);
                         })
+                        /*mysql.insertMemo(fields.fecha, fields.texto, path, function(rows) {
+                            console.log(rows);
+                        })*/
                     }
                 });
             })
 
         } else {
+            var nota = {}
+            nota.fecha = fields.fecha;
+            nota.texto = fields.texto;
             // inserción en la BBDD sin ruta del archivo en la BBDD
-            mysql.insertMemo2(fields.fecha, fields.texto, function(rows) {
-                console.log(rows);
+            notas.insertMemo(nota, function (err, documents) {
+                console.log(documents);
             })
+            /*mysql.insertMemo2(fields.fecha, fields.texto, function(rows) {
+                console.log(rows);
+            })*/
         }
         response.writeHead(302, {'Location': '/'});
         /*response.write("received image:<br/>");

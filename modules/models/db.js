@@ -6,9 +6,37 @@
  * Módulo encargado de conectarse a la BBDD de MYSQL y realizar las consultas sobre la misma
  *
  */
-
+var MongoClient = require('mongodb').MongoClient;
 var mysql      = require('mysql');
 
+
+var state = {
+    db: null,
+}
+
+exports.connect = function(url, done) {
+    if (state.db) return done()
+
+    MongoClient.connect(url, function(err, db) {
+        if (err) return done(err)
+        state.db = db
+        done()
+    })
+}
+
+exports.get = function() {
+    return state.db
+}
+
+exports.close = function(done) {
+    if (state.db) {
+        state.db.close(function(err, result) {
+            state.db = null
+            state.mode = null
+            done(err)
+        })
+    }
+}
 // parametros de conexión a mi BBDD local
 var connection = mysql.createConnection({
     host     : 'localhost',
@@ -21,6 +49,27 @@ connection.connect();
 
 // Se exportan las funciones que se requieren utilizar  por otros módulos
 module.exports = {
+    connect: function(url, done) {
+        if (state.db) return done()
+
+        MongoClient.connect(url, function(err, db) {
+            if (err) return done(err)
+            state.db = db
+            done()
+        })
+    },
+    get: function() {
+        return state.db
+    },
+    close: function(done) {
+        if (state.db) {
+            state.db.close(function(err, result) {
+                state.db = null
+                state.mode = null
+                done(err)
+            })
+        }
+    },
     // Muestra todas las notas del campo notas
     show: function (callback) {
         connection.query('SELECT * FROM notas', function(err, rows, fields) {
