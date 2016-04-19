@@ -54,8 +54,8 @@
       <file leaf-file-name="requestHandlers.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/modules/requestHandlers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="32" column="42" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
+            <state relative-caret-position="-450">
+              <caret line="62" column="54" selection-start-line="62" selection-start-column="54" selection-end-line="62" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -913,7 +913,7 @@
       <workItem from="1461055134409" duration="17000" />
       <workItem from="1461055243781" duration="34000" />
       <workItem from="1461055313191" duration="266000" />
-      <workItem from="1461055697808" duration="10463000" />
+      <workItem from="1461055697808" duration="10563000" />
     </task>
     <task id="LOCAL-00001" summary="PP">
       <created>1459863910360</created>
@@ -992,11 +992,18 @@
       <option name="project" value="LOCAL" />
       <updated>1461066392030</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Práctica 4 versión con login">
+      <created>1461067193774</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1461067193774</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32115000" />
+    <option name="totallyTimeSpent" value="32215000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="43" y="24" width="1323" height="744" extended-state="6" />
@@ -1048,7 +1055,8 @@
     <MESSAGE value="Subida de la practica4" />
     <MESSAGE value="Subida de la practica4-1" />
     <MESSAGE value="Práctica 4 versión sin login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Práctica 4 versión sin login" />
+    <MESSAGE value="Práctica 4 versión con login" />
+    <option name="LAST_COMMIT_MESSAGE" value="Práctica 4 versión con login" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1406,8 +1414,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/requestHandlers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="32" column="42" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
+        <state relative-caret-position="-450">
+          <caret line="62" column="54" selection-start-line="62" selection-start-column="54" selection-end-line="62" selection-end-column="54" />
           <folding />
         </state>
       </provider>

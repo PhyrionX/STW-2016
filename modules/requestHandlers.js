@@ -60,7 +60,7 @@ function login(response, request) {
                 console.log(rows);
                 if (rows.length == 0) {
                    users.insertUser(user, function (err, document) {
-                       showAllMemo(document.ops[0]._id)
+                       showAllMemo(response, request, document.ops[0]._id)
                    })
                 } else {
                     //response.writeHead(302, {"Location":"/showAllMemo", "Content-Type": "text/html", "op":"op"});
