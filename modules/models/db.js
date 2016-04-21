@@ -3,7 +3,8 @@
  *
  * mysqlConnection.js
  *
- * Módulo encargado de conectarse a la BBDD de MYSQL y realizar las consultas sobre la misma
+ * Módulo encargado de conectarse a la BBDD de MongoDB
+ * Conexión, getConexión, getObjectId, close
  *
  */
 var Mongo = require('mongodb');

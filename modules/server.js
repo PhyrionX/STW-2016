@@ -18,6 +18,8 @@ function start(route, handle) {
         console.log("Request for " + pathname + " received.");
         route(handle, pathname, response, request);
     }
+    
+    // Conectar a la base de datos
     db.connect('mongodb://localhost:27017/mydatabase', function(err) {
         if (err) {
             console.log('Unable to connect to Mongo.')

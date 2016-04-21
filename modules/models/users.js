@@ -1,3 +1,12 @@
+/**
+ * Rubén Gabás Celimendiz 590738
+ *
+ * users.js
+ *
+ * Módulo encargado funciones sobre la base de datos de la collección
+ * users
+ */
+
 var db = require('./db');
 
 module.exports= {

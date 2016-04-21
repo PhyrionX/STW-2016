@@ -83,6 +83,7 @@ function login(response, request) {
 function showAllMemo(response, request, id) {
     var parts = url.parse(request.url, true)
 
+    // Simulamos una sessión
     if (id != null || parts.query.row_id != null) {
         if (id == null) {
             id = parts.query.row_id;
@@ -150,6 +151,7 @@ function setMemo(response, request) {
     form.parse(request, function(error, fields, files) {
         console.log("parsing done");
         console.log(fields.texto + " " + fields.fecha);
+        //Simulamos una sesión
         if (fields.row_id != "") {
             /* Possible error on Windows systems:
              tried to rename to an already existing file */
@@ -205,8 +207,9 @@ function setMemo(response, request) {
 function deleteMemo(response, request) {
     console.log("Request handler 'deleteMemo' was called.");
     // parseamos la url
-    var parts = url.parse(request.url, true)
+    var parts = url.parse(request.url, true);
     console.log(parts.query.row_id);
+    //Simula una conexión
     if (parts.query.row_id != null) {
         notas.deleteMemo(parts.query.id, function (err) {
             showAllMemo(response, request, parts.query.row_id);
@@ -228,6 +231,7 @@ function showMemo(response, request) {
     console.log("Request handler 'showMemo' was called.");
     var parts = url.parse(request.url, true);
     console.log(parts.query.id);
+    //Simula una conexión
     if (parts.query.row_id != null) {
         notas.showMemo(parts.query.id, function (err, rows) {
             var body = '<html>' +

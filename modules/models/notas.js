@@ -1,3 +1,11 @@
+/**
+ * Rubén Gabás Celimendiz 590738
+ *
+ * notas.js
+ *
+ * Módulo encargado funciones sobre la base de datos de la collección
+ * notas
+ */
 var db = require('./db');
 
 module.exports= {
