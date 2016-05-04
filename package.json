@@ -1,0 +1,12 @@
+{
+  "name": "mongodb-test",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "mongodb": "latest",
+    "formidable": "latest",
+    "mongoose": "latest",
+    "express": "latest"
+  },
+  "devDependencies" : {}
+}
