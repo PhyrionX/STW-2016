@@ -6,7 +6,9 @@
     "mongodb": "latest",
     "formidable": "latest",
     "mongoose": "latest",
-    "express": "latest"
+    "express": "latest",
+    "body-parser": "latest",
+    "method-override": "latest"
   },
   "devDependencies" : {}
 }
