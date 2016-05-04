@@ -1,10 +1,10 @@
 /**
  * Rubén Gabás Celimendiz 590738
  *
- * users.js
+ * notas.js
  *
  * Módulo encargado funciones sobre la base de datos de la collección
- * users
+ * notas
  */
 
 var Nota = require('./models').Nota;

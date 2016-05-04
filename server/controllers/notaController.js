@@ -1,3 +1,13 @@
+/**
+ * Rubén Gabás Celimendiz 590738
+ *
+ * notaController.js
+ *
+ * Aquí se definen las funciones de las que harán uso los endpoints
+ * encargados del recurso notas
+ *
+ * @type {*|exports|module.exports}
+ */
 var fs = require("fs"),
     formidable = require("formidable");
 var notas = require("../model/notas")

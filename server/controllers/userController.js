@@ -1,3 +1,14 @@
+/**
+ * Rubén Gabás Celimendiz 590738
+ *
+ * userController.js
+ *
+ * Aquí se definen las funciones de las que harán uso los endpoints
+ * encargados del recurso users
+ *
+ * @type {*|exports|module.exports}
+ */
+
 var formidable = require("formidable");
 var users = require("../model/users")
 

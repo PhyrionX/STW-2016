@@ -1,4 +1,6 @@
 /**
+ * Rubén Gabás Celimendiz 590738
+ * 
  * models.js
  *
  * Aqui se declararan todos los modelos de
