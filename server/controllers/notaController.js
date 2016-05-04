@@ -38,7 +38,7 @@ module.exports = {
 
                     //guarda en el path único el archivo, en un sistema de ficheros
                     // y esta ruta la guardamos en la BBDD
-                    var path = "./files/" + crypto.createHash('md5').update("" + new Date().getTime()).digest("hex") + files.upload.name;
+                    var path = "./public/files/" + crypto.createHash('md5').update("" + new Date().getTime()).digest("hex") + files.upload.name;
                     console.log(path);
                     fs.rename(files.upload.path, path, function (error) {
                         if (error) {
@@ -56,7 +56,9 @@ module.exports = {
                                 if (err) {
                                     res.status(400).json({error: false, message: "Algo malo sucedió"});
                                 } else {
-                                    res.status(200).json({error: false, nota: document});
+                                    notas.show(function (err, notas) {
+                                        res.status(200).json({error: false, notas: notas});
+                                    })
                                 }
                             })
                         }
@@ -70,7 +72,9 @@ module.exports = {
                         if (err) {
                             res.status(400).json({error: false, message: "Algo malo sucedió"});
                         } else {
-                            res.status(200).json({error: false, nota: document});
+                            notas.show(function (err, notas) {
+                                res.status(200).json({error: false, notas: notas});
+                            })
                         }
                     })
                 }
@@ -78,6 +82,7 @@ module.exports = {
                 res.status(200).json({error: true, message: "No se ha podido crear la nota"})
             }
         })
+        //res.status(200).json({error: true, message: "No se ha podido crear la nota"})
     },
     showMemo: function (req, res, next) {
         notas.showMemo(req.params.id, function (err, document) {
@@ -97,11 +102,9 @@ module.exports = {
             if (err) {
                 res.status(400).json({error: false, message: "Algo malo sucedió"});
             } else {
-                if (nota.result.n == 1) {
-                    res.status(200).json({error: false, message: "La nota se ha borrado correctamente"});
-                } else {
-                    res.status(200).json({error: false, message: "La nota con el id '" + req.params.id + "' no existe."});
-                }
+                notas.show(function (err, notas) {
+                    res.status(200).json({error: false, notas: notas});
+                })
             }
         })
     }

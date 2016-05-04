@@ -18,6 +18,8 @@ var express = require('express'),
 var app = express();
 var mongoose = require('mongoose');
 
+app.use(express.static(path.join(__dirname, './public')));
+
 // puerto que utilizamos para el servidor
 app.set('port', config.port);
 // url de que utilizamos para lo conexión de la base de datos
