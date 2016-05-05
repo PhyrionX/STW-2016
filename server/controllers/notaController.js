@@ -25,10 +25,11 @@ module.exports = {
     },
     setMemo: function (req, res, next) {
         var form = new formidable.IncomingForm();
-
+        console.log(req.headers);
+        form.multiples = true;
         form.parse(req, function(error, fields, files) {
             console.log("parsing done");
-            console.log(fields.texto + " " + fields.fecha);
+            console.log(fields);
             //Simulamos una sesión
             /* Possible error on Windows systems:
              tried to rename to an already existing file */
@@ -38,13 +39,13 @@ module.exports = {
 
                     //guarda en el path único el archivo, en un sistema de ficheros
                     // y esta ruta la guardamos en la BBDD
-                    var path = "./public/files/" + crypto.createHash('md5').update("" + new Date().getTime()).digest("hex") + files.upload.name;
+                    var path = "/files/" + crypto.createHash('md5').update("" + new Date().getTime()).digest("hex") + files.upload.name;
                     console.log(path);
-                    fs.rename(files.upload.path, path, function (error) {
+                    fs.rename(files.upload.path, "./public/" + path, function (error) {
                         if (error) {
                             console.log("Error");
-                            fs.unlink(path);
-                            fs.rename(files.upload.path, path);
+                            fs.unlink("./public/" + path);
+                            fs.rename(files.upload.path, "./public/" + path);
 
                         } else {
                             var nota = {};

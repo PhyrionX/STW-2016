@@ -35,14 +35,38 @@
 
         <!-- TODO LIST -->
         <div id="todo-list" class="row">
-            <div class="col-sm-4 col-sm-offset-4">
+            <div class="col-sm-8 col-sm-offset-2">
 
                 <!-- LOOP OVER THE Users IN $scope.users -->
-                <div class="checkbox" ng-repeat="nota in notas">
-                    <label>
-                        <input type="checkbox" ng-click="deleteUser(user._id)"> {{ nota.texto }}
-                    </label>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading"><h2>Lista de notas</h2></div>
+
+                    <!-- Table -->
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Texto</th>
+                            <th>Archivo</th>
+                            <th>Acciones</th>
+                        </tr>
+                        <tr ng-repeat="nota in notas">
+                            <td>{{nota._id}}</td>
+                            <td>{{nota.fecha}}</td>
+                            <td>{{nota.texto}}</td>
+                            <td><a ng-show="nota.path" href="{{nota.path}}" target="_blank">Archivo</a></td>
+                            <td><input type="checkbox" ng-click="deleteNota(nota._id)">Borrar</td>
+
+                        </tr>
+                    </table>
                 </div>
+                <!--<div class="checkbox" ng-repeat="nota in notas">
+                    <label>
+                        <input type="checkbox" ng-click="deleteNota(nota._id)"> {{ nota.texto }}
+                        <a href="{{nota.path}}" target="_blank">Archivo</a>
+                    </label>
+                </div>-->
 
             </div>
         </div>
@@ -50,21 +74,20 @@
         <!-- FORM TO CREATE TODOS -->
         <div id="todo-form" class="row">
             <div class="col-sm-8 col-sm-offset-2 text-center">
-                <form>
+                <form ng-submit="createNota()">
                     <div class="form-group">
-
-                        <input type="text" class="form-control input-lg text-center" placeholder="Fecha ej: 12-05-1989" pattern="\\d{1,2}-\\d{1,2}-\\d{4}" ng-model="formData.fecha">
-                        <input type="text" class="form-control input-lg text-center" placeholder="Escribe texto..." ng-model="formData.texto">
+                        <div class="alert alert-danger" ng-show="error.fecha" role="alert">Revise los campos.</div>
+                        <input type="text" class="form-control input-lg text-center" ng-class="{'has-error' : error.fecha}"   placeholder="Fecha ej: 12-05-1989" ng-model="formData.fecha" required>
+                        <input type="text" class="form-control input-lg text-center" placeholder="Escribe texto..." ng-model="formData.texto" required>
+                        <input type="file" file-upload multiple ng-model="formData.op"/>
 
                     </div>
-
                     <!-- createToDo() WILL CREATE NEW TODOS -->
-                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createUser()">Add</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Añadir nota</button>
                 </form>
             </div>
         </div>
 
     </div>
-
 </body>
 </html>
